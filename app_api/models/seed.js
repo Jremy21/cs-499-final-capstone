@@ -1,19 +1,29 @@
-// Bring in the database connection and the Trip schema
-const Mongoose = require('./db');
-const Trip = require('./travlr');
+// travlr/app_server/models/seed.js
+const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
+const Trip = require('./travlr'); // schema in the same folder
 
-// Read seed data from the JSON file
-var fs = require('fs');
-var trips = JSON.parse(fs.readFileSync('../data/trips.json', 'utf8'));
+(async () => {
+  try {
+    const host = process.env.DB_HOST || '127.0.0.1';
+    const dbURI = `mongodb://${host}/travlr`;
 
-// Delete any existing records, then insert seed data
-const seedDB = async () => {
-    await Trip.deleteMany({});
-    await Trip.insertMany(trips);
-};
+    await mongoose.connect(dbURI); // no useNewUrlParser / useUnifiedTopology needed
 
-// Close the MongoDB connection and exit
-seedDB().then(async () => {
-    await Mongoose.connection.close();
-    process.exit(0);
-});
+    // resolve trips.json from project root when running `node app_server/models/seed.js`
+    const tripsPath = path.resolve(process.cwd(), 'data', 'trips.json');
+    const trips = JSON.parse(fs.readFileSync(tripsPath, 'utf8'));
+
+    const result = await Trip.deleteMany({});
+    console.log(`Existing trips removed. (deleted ${result.deletedCount})`);
+
+    const docs = await Trip.insertMany(trips);
+    console.log(`${docs.length} trips successfully stored.`);
+  } catch (err) {
+    console.error('Error:', err);
+    process.exitCode = 1;
+  } finally {
+    await mongoose.connection.close();
+  }
+})();
