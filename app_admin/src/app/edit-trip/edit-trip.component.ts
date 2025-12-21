@@ -18,6 +18,10 @@ export class EditTripComponent implements OnInit {
   submitted = false;
   message : string = '';
 
+  loading = false;
+  saving = false;
+  error = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -70,6 +74,8 @@ export class EditTripComponent implements OnInit {
       })
   }
 
+  submit(): void { this.onSubmit(); }
+
   public onSubmit()
   {
     this.submitted = true;
@@ -91,4 +97,6 @@ export class EditTripComponent implements OnInit {
 
   // get the form short name to access the form fields
   get f() { return this.editForm.controls; }
+
+  get form(): FormGroup { return this.editForm; }
 }

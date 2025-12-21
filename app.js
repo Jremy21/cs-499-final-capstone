@@ -9,8 +9,13 @@ var usersRouter = require('./app_server/routes/users');
 var travelRouter = require('./app_server/routes/travel');
 const hbs = require('hbs');
 var app = express();
+var passport = require('passport');
+require('./app_api/config/passport');
+
 
 require('./app_api/models/db');
+require('dotenv').config();
+
 
 var apiRouter = require('./app_api/routes');
 
@@ -26,6 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+
 
 // Enable CORS for Angular dev
 app.use('/api', (req, res, next) => {
@@ -41,6 +48,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/travel', travelRouter);
 app.use('/api', apiRouter);
+
+// Catch unauthorized error and create 401
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({ "message": err.name + ": " + err.message });
+  }
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
