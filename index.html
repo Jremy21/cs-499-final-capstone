@@ -5,19 +5,225 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CS-499 Final Capstone</title>
   <style>
-    body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0b1220;color:#e5e7eb;display:grid;place-items:center;min-height:100vh}
-    .card{max-width:820px;margin:24px;padding:28px;border:1px solid #334155;border-radius:14px;background:#111827}
-    h1{margin-top:0} a{color:#67e8f9}
+    :root {
+      --bg-1: #f7fafc;
+      --bg-2: #e6eef6;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: #d7e2ee;
+      --brand: #0b5fff;
+      --brand-strong: #0846bd;
+      --accent: #14b8a6;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at -10% -20%, #c7defa 0%, transparent 55%),
+        radial-gradient(1000px 520px at 115% -30%, #ccfbf1 0%, transparent 52%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      padding: 32px 18px;
+    }
+
+    .shell {
+      max-width: 1040px;
+      margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 36px 30px 26px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(120deg, #ffffff 10%, #f8fbff 55%, #f1fbf9 100%);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-strong);
+      background: #e7efff;
+      border: 1px solid #c7d9ff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.1;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 70ch;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .meta li {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .meta strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .content {
+      padding: 28px 30px 34px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 21px;
+    }
+
+    .commit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .commit-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 14px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .commit-card:hover,
+    .commit-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: #bcd0ef;
+      box-shadow: 0 12px 24px rgba(11, 95, 255, 0.12);
+      outline: none;
+    }
+
+    .hash {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-strong);
+      background: #eaf0ff;
+      border: 1px solid #cfdeff;
+      margin-bottom: 10px;
+    }
+
+    .msg {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #0b1a33;
+    }
+
+    .date {
+      margin: 0;
+      font-size: 13px;
+      color: #5b6c84;
+    }
+
+    .footer-link {
+      margin-top: 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .footer-link a {
+      color: var(--brand);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .footer-link a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>CS-499 Final Capstone</h1>
-    <p>This repository preserves the original commit history for the full 8-module progression.</p>
-    <p>Repository: <a href="https://github.com/Jremy21/cs-499-final-capstone">github.com/Jremy21/cs-499-final-capstone</a></p>
-    <p>Branches: <code>main</code>, <code>module1</code> ... <code>module7</code></p>
+  <main class="shell">
+    <section class="hero">
+      <span class="eyebrow">CS-499 Capstone</span>
+      <h1>Final Capstone Repository</h1>
+      <p class="sub">This site highlights repository status and recent activity for the CS-499 final capstone project.</p>
+      <ul class="meta">
+        <li>
+          <strong>Repository</strong>
+          Jremy21/cs-499-final-capstone
+        </li>
+        <li>
+          <strong>Primary Branches</strong>
+          main, module1 through module7
+        </li>
+        <li>
+          <strong>Pages Source</strong>
+          gh-pages
+        </li>
+      </ul>
+    </section>
+
+    <section class="content">
+      <h2>Latest 3 Commits</h2>
+      <div class="commit-grid">
+        <a class="commit-card" href="https://github.com/Jremy21/cs-499-final-capstone/commit/8b37e86" target="_blank" rel="noopener noreferrer">
+          <span class="hash">8b37e86</span>
+          <p class="msg">Trigger Pages rebuild</p>
+          <p class="date">2026-03-01</p>
+        </a>
+
+        <a class="commit-card" href="https://github.com/Jremy21/cs-499-final-capstone/commit/d7ae446" target="_blank" rel="noopener noreferrer">
+          <span class="hash">d7ae446</span>
+          <p class="msg">Add GitHub Pages site on gh-pages branch</p>
+          <p class="date">2026-03-01</p>
+        </a>
+
+        <a class="commit-card" href="https://github.com/Jremy21/cs-499-final-capstone/commit/bcb5386" target="_blank" rel="noopener noreferrer">
+          <span class="hash">bcb5386</span>
+          <p class="msg">Update README.md</p>
+          <p class="date">2025-12-21</p>
+        </a>
+      </div>
+
+      <p class="footer-link">Open full project on <a href="https://github.com/Jremy21/cs-499-final-capstone" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+    </section>
   </main>
 </body>
 </html>
-
-<!-- rebuild 2026-03-01 15:37:02 -->
