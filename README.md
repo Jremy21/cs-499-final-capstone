@@ -1,5 +1,5 @@
-# CS-465-Jeremie-Jones-Projects
-Computer Science 465
+# CS-499-final-capstone-Jeremie-Jones
+Computer Science 499
 
 Architecture-
 
